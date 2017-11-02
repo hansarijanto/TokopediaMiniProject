@@ -8,11 +8,21 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+// This is the mainVC, first CC shown when the app loads
+
+class ViewController: UINavigationController {
+    
+    private let searchVC: SearchViewController = SearchViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // set nav bar to be solid
+        self.navigationBar.isTranslucent = false
+        
+        // set initial root vc
+        self.pushViewController(self.searchVC, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
