@@ -18,6 +18,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         
         self.imageView.contentMode = .scaleAspectFill
         self.contentView.addSubview(imageView)
+        
         self.backgroundColor = UIColor.white
     }
     

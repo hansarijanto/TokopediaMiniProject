@@ -23,6 +23,10 @@ class ViewController: UINavigationController {
         
         // set initial root vc
         self.pushViewController(self.searchVC, animated: true)
+        HTTPManager.shared.get(urlString: "https://ace.tokopedia.com/search/v2.5/product?q=samsung&pmin=10000&pmax=100000&wholesale=true&official=true&fshop=2&start=0&rows=10", completionBlock: {(data: String) -> Void in
+            print(data)
+        })
+        
     }
 
     override func didReceiveMemoryWarning() {

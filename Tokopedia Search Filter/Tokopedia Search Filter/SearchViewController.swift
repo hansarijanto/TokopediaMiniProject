@@ -62,7 +62,7 @@ class SearchViewController: UIViewController {
 }
 
 
-// MARK - collection view data source + delegate
+// MARK: collection view data source + delegate
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

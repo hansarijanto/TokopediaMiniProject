@@ -17,6 +17,9 @@
 		B8E33F871FAB956900C6616B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F861FAB956900C6616B /* SearchViewController.swift */; };
 		B8E33F891FAB984E00C6616B /* SearchCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F881FAB984E00C6616B /* SearchCollectionViewLayout.swift */; };
 		B8E33F8B1FAB996900C6616B /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F8A1FAB996900C6616B /* SearchCollectionViewCell.swift */; };
+		B8E33F8E1FABA37F00C6616B /* TokopediaProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F8D1FABA37F00C6616B /* TokopediaProductManager.swift */; };
+		B8E33F901FABA38C00C6616B /* TokopediaProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F8F1FABA38C00C6616B /* TokopediaProduct.swift */; };
+		B8E33F921FABA3A100C6616B /* HTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F911FABA3A100C6616B /* HTTPManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		B8E33F861FAB956900C6616B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		B8E33F881FAB984E00C6616B /* SearchCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewLayout.swift; sourceTree = "<group>"; };
 		B8E33F8A1FAB996900C6616B /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		B8E33F8D1FABA37F00C6616B /* TokopediaProductManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TokopediaProductManager.swift; path = "Tokopedia Search Filter/TokopediaProductManager.swift"; sourceTree = "<group>"; };
+		B8E33F8F1FABA38C00C6616B /* TokopediaProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokopediaProduct.swift; sourceTree = "<group>"; };
+		B8E33F911FABA3A100C6616B /* HTTPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +89,9 @@
 		B8E33F4C1FAB92F200C6616B = {
 			isa = PBXGroup;
 			children = (
+				B8E33F8D1FABA37F00C6616B /* TokopediaProductManager.swift */,
+				B8E33F8F1FABA38C00C6616B /* TokopediaProduct.swift */,
+				B8E33F911FABA3A100C6616B /* HTTPManager.swift */,
 				B8E33F571FAB92F200C6616B /* Tokopedia Search Filter */,
 				B8E33F6C1FAB92F200C6616B /* Tokopedia Search FilterTests */,
 				B8E33F771FAB92F200C6616B /* Tokopedia Search FilterUITests */,
@@ -105,9 +114,7 @@
 			children = (
 				B8E33F581FAB92F200C6616B /* AppDelegate.swift */,
 				B8E33F5A1FAB92F200C6616B /* ViewController.swift */,
-				B8E33F861FAB956900C6616B /* SearchViewController.swift */,
-				B8E33F881FAB984E00C6616B /* SearchCollectionViewLayout.swift */,
-				B8E33F8A1FAB996900C6616B /* SearchCollectionViewCell.swift */,
+				B8E33F8C1FABA2B000C6616B /* Search */,
 				B8E33F5C1FAB92F200C6616B /* Main.storyboard */,
 				B8E33F5F1FAB92F200C6616B /* Assets.xcassets */,
 				B8E33F611FAB92F200C6616B /* LaunchScreen.storyboard */,
@@ -132,6 +139,16 @@
 				B8E33F7A1FAB92F200C6616B /* Info.plist */,
 			);
 			path = "Tokopedia Search FilterUITests";
+			sourceTree = "<group>";
+		};
+		B8E33F8C1FABA2B000C6616B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				B8E33F861FAB956900C6616B /* SearchViewController.swift */,
+				B8E33F881FAB984E00C6616B /* SearchCollectionViewLayout.swift */,
+				B8E33F8A1FAB996900C6616B /* SearchCollectionViewCell.swift */,
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,11 +288,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8E33F8E1FABA37F00C6616B /* TokopediaProductManager.swift in Sources */,
 				B8E33F891FAB984E00C6616B /* SearchCollectionViewLayout.swift in Sources */,
 				B8E33F871FAB956900C6616B /* SearchViewController.swift in Sources */,
 				B8E33F5B1FAB92F200C6616B /* ViewController.swift in Sources */,
+				B8E33F901FABA38C00C6616B /* TokopediaProduct.swift in Sources */,
 				B8E33F591FAB92F200C6616B /* AppDelegate.swift in Sources */,
 				B8E33F8B1FAB996900C6616B /* SearchCollectionViewCell.swift in Sources */,
+				B8E33F921FABA3A100C6616B /* HTTPManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
