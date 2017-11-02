@@ -80,9 +80,26 @@ class TokopediaProductManager {
         self.isGettingBatch = true
         
         weak var weakSelf = self
-        HTTPManager.shared.get(urlString: self.requestUrl(), completionBlock: {(data: String) -> Void in
+        HTTPManager.shared.get(urlString: self.requestUrl(), completionBlock: {(dataString: String) -> Void in
             if let strongSelf = weakSelf {
-                print(data)
+                var dataDict: [String: Any] = [String: Any]()
+                if let data = dataString.data(using: .utf8) {
+                    do {
+                        dataDict = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+                
+                if let productsData = dataDict["data"] as? [[String: Any]] {
+                    for productData in productsData {
+                        if let productName  = productData["name"] as? String, let productPrice = productData["price"] as? String, let imageUrl = productData["uri"] as? String {
+                            let product = TokopediaProduct(title: productName, imageUrl: imageUrl, price: productPrice)
+                            strongSelf.products.append(product)
+                        }
+                    }
+                }
+                
                 strongSelf.currentProductIndex += TokopediaProductManager.batchSize // increment batch size
                 strongSelf.isGettingBatch = false
             }

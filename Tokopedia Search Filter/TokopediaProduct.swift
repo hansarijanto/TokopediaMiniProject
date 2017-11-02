@@ -19,9 +19,9 @@ class TokopediaProductFilter {
 class TokopediaProduct {
     public let title    : String
     public let imageUrl : String
-    public let price    : Int
+    public let price    : String
     
-    init(title: String, imageUrl: String, price: Int) {
+    init(title: String, imageUrl: String, price: String) {
         self.title    = title
         self.imageUrl = imageUrl
         self.price    = price
