@@ -12,7 +12,7 @@ class SearchCollectionViewLayout: UICollectionViewFlowLayout {
     
     let innerSpace         : CGFloat = 1.5
     let numberOfCellsOnRow : CGFloat = 2.0
-    let heightWidthRatio   : CGFloat = 1.4
+    let heightWidthRatio   : CGFloat = 1.5
     
     
     override init() {
@@ -36,7 +36,7 @@ class SearchCollectionViewLayout: UICollectionViewFlowLayout {
             self.itemSize = CGSize(width:itemWidth(), height:itemWidth() * self.heightWidthRatio)
         }
         get {
-            return CGSize(width:itemWidth(),height:itemWidth())
+            return CGSize(width:itemWidth(),height:itemWidth() * self.heightWidthRatio)
         }
     }
     

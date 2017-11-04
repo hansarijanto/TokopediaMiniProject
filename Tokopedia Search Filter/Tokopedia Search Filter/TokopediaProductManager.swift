@@ -12,7 +12,7 @@ import Foundation
 // and is responsible for its downloads
 
 class TokopediaProductManager {
-    private var products : [TokopediaProduct]     = [TokopediaProduct]()
+    private(set) var products : [TokopediaProduct]     = [TokopediaProduct]()
     private let filter   : TokopediaProductFilter = TokopediaProductFilter()
     
     private var currentProductIndex : Int = 0
@@ -93,7 +93,7 @@ class TokopediaProductManager {
                 
                 if let productsData = dataDict["data"] as? [[String: Any]] {
                     for productData in productsData {
-                        if let productName  = productData["name"] as? String, let productPrice = productData["price"] as? String, let imageUrl = productData["uri"] as? String {
+                        if let productName  = productData["name"] as? String, let productPrice = productData["price"] as? String, let imageUrl = productData["image_uri_700"] as? String {
                             let product = TokopediaProduct(title: productName, imageUrl: imageUrl, price: productPrice)
                             strongSelf.products.append(product)
                         }

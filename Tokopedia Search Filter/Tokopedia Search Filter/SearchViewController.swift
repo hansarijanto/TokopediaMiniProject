@@ -48,8 +48,8 @@ class SearchViewController: UIViewController {
         self.collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         // TODO:: frame height not set correctly, doesn't scroll until the end
         self.collectionView.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height - self.navigationController!.navigationBar.frame.height)
-        self.collectionView.contentInset = UIEdgeInsetsMake(2.0, 0.0, 2.0, 0.0)
-        self.collectionView.backgroundColor = UIColor.lightGray
+        self.collectionView.contentInset = UIEdgeInsetsMake(5.0, 0.0, 5.0, 0.0)
+        self.collectionView.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
         self.view.addSubview(self.collectionView)
     }
     
@@ -66,7 +66,7 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return TokopediaProductManager.shared.products.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -75,11 +75,36 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SearchCollectionViewCell
+        let products = TokopediaProductManager.shared.products
+        let product = products[indexPath.row]
+        
+        // load product image
+        if let url = URL(string: product.imageUrl) {
+            do {
+                let data = try Data(contentsOf: url)
+                let image = UIImage(data : data)
+                DispatchQueue.main.async {
+                    cell.imageView.image = image
+                }
+                
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            cell.titleLabel.text = product.title
+            cell.priceLabel.text = product.price
+        }
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionViewCell
+        let products = TokopediaProductManager.shared.products
+        let product = products[indexPath.row]
+        
         return
     }
     
