@@ -17,10 +17,10 @@ class SearchCollectionViewCell: UICollectionViewCell {
     
     private let imagePadding: CGFloat = 8.0 // padding on left, right and top
     private let titleLabelSidePadding : CGFloat = 8.0
-    private let titleLabelTopPadding  : CGFloat = 10.0
+    private let titleLabelTopPadding  : CGFloat = 7.0
     
-    private let priceLabelSidePadding : CGFloat = 8.0
-    private let priceLabelBottomPadding  : CGFloat = 15.0
+    private let priceLabelSidePadding   : CGFloat = 8.0
+    private let priceLabelBottomPadding : CGFloat = 8.0
     
     
     override init(frame: CGRect) {
@@ -37,7 +37,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(self.titleLabel)
         
         priceLabel.frame = CGRect(x: self.priceLabelSidePadding, y: self.self.contentView.frame.maxY - self.priceLabelBottomPadding - 30.0, width: labelWidth, height: 30.0)
-        priceLabel.font = UIFont.systemFont(ofSize: 14.0)
+        priceLabel.font = UIFont.systemFont(ofSize: 13.0)
         priceLabel.textColor = UIColor(red: 255.0/255.0, green: 116.0/255.0, blue: 71.0/255.0, alpha: 1.0)
         self.contentView.addSubview(self.priceLabel)
         

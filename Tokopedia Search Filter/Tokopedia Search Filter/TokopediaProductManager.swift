@@ -17,7 +17,7 @@ protocol TokopediaProductManagerDelegate: class {
 
 class TokopediaProductManager {
     private(set) var products : [TokopediaProduct]     = [TokopediaProduct]()
-    private let filter   : TokopediaProductFilter = TokopediaProductFilter()
+    public let filter         : TokopediaProductFilter = TokopediaProductFilter()
     
     private var currentProductIndex : Int = 0
     private var isGettingBatch      : Bool = false // is true when sending a get request

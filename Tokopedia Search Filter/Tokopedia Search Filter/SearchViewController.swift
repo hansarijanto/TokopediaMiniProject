@@ -23,14 +23,17 @@ class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
     private let activityView : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     private let fadeView     : UIView = UIView()
     
-    public let YScrollLoadPadding: CGFloat = 70.0 // padding in pixels for the amount needed to load more data once the collection view has reached it's maxed scroll
+    public let YScrollLoadPadding: CGFloat = 140.0 // padding in pixels for the amount needed to load more data once the collection view has reached it's maxed scroll
 
+    private let filterButton : UIButton = UIButton()
+    private let filterButtonHeight: CGFloat = 53.0
     
-    var fullImageView: UIImageView!
+    private let filterVC: FilterViewController
     
     init() {
         // create collection view with custom layout
         self.collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.CVLayout)
+        self.filterVC = FilterViewController(filter: TokopediaProductManager.shared.filter)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,11 +56,19 @@ class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        // TODO:: frame height not set correctly, doesn't scroll until the end
-        self.collectionView.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height - self.navigationController!.navigationBar.frame.height)
-        self.collectionView.contentInset = UIEdgeInsetsMake(5.0, 0.0, 5.0, 0.0)
-        self.collectionView.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+        self.collectionView.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height - self.navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.size.height - self.filterButtonHeight)
+        self.collectionView.contentInset = UIEdgeInsetsMake(10.0, 0.0, 30.0, 0.0)
+        self.collectionView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 239.0/255.0, alpha: 1.0)
         self.view.addSubview(self.collectionView)
+        
+        self.filterButton.frame = CGRect(x: 0.0, y: self.collectionView.frame.maxY, width: self.view.frame.size.width, height: self.filterButtonHeight)
+        self.filterButton.backgroundColor = UIColor(red: 58.0/255.0, green: 171.0/255.0, blue: 68.0/255.0, alpha: 1.0)
+        self.filterButton.setTitle("Filter", for: .normal)
+        self.filterButton.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        self.filterButton.titleLabel?.textColor = .white
+        self.view.addSubview(self.filterButton)
+        
+        self.filterButton.addTarget(self, action: #selector(self.presentFilterView), for: .touchUpInside)
         
         // setup loading view
         self.fadeView.frame = self.view.frame
@@ -66,9 +77,9 @@ class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
         self.fadeView.isHidden = true
         self.view.addSubview(fadeView)
         
-        self.view.addSubview(activityView)
-        activityView.hidesWhenStopped = true
-        activityView.center = self.view.center
+        self.view.addSubview(self.activityView)
+        self.activityView.hidesWhenStopped = true
+        self.activityView.center = self.view.center
         
         TokopediaProductManager.shared.delegate = self // assign self as delegate
         self.loadMoreData() // load the first batch of data
@@ -103,8 +114,14 @@ class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
         }
     }
     
+    @objc private func presentFilterView() {
+        DispatchQueue.main.async {
+            self.present(self.filterVC, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: TokopediaProductManagerDelegate
-    func didDownloadProducts(products: [TokopediaProduct]) {
+    public func didDownloadProducts(products: [TokopediaProduct]) {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
