@@ -9,14 +9,14 @@
 import Foundation
 
 class TokopediaProductFilter {
-    public var minPrice    : Int?  = nil
-    public var maxPrice    : Int?  = nil
+    public var minPrice    : Double?  = nil
+    public var maxPrice    : Double?  = nil
     public var isWholesale : Bool? = nil
     public var isOfficial  : Bool? = nil
     public var goldSeller  : Int?  = nil
     
-    static let maxPriceRange : Int = 10000000
-    static let minPriceRange : Int = 100
+    static let maxPriceRange : Double = 10000000.0
+    static let minPriceRange : Double = 100.0
 }
 
 class TokopediaProduct {

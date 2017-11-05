@@ -29,6 +29,9 @@ class FilterViewController: UIViewController {
     private let sliderMinLable      : UILabel = UILabel()
     private let sliderMaxLable      : UILabel = UILabel()
     
+    private let wholeSaleSwitch : UISwitch = UISwitch()
+    private let wholeSaleLabel  : UILabel  = UILabel()
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -75,7 +78,7 @@ class FilterViewController: UIViewController {
         self.resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 13.0, weight: 1.2)
         self.headerContainer.addSubview(self.resetButton)
         
-        self.sliderContainer.frame = CGRect(x: 0.0, y: self.headerContainer.frame.maxY + 10.0, width: self.view.frame.size.width, height: 180.0)
+        self.sliderContainer.frame = CGRect(x: 0.0, y: self.headerContainer.frame.maxY + 10.0, width: self.view.frame.size.width, height: 220.0)
         self.sliderContainer.backgroundColor = .white
         self.view.addSubview(self.sliderContainer)
         
@@ -97,16 +100,16 @@ class FilterViewController: UIViewController {
         self.sliderContainer.addSubview(self.sliderMaxTitleLable)
         
         self.sliderMinLable.font = sliderFont
-        self.sliderMinLable.text = "Rp 100"
+        self.sliderMinLable.text = self.formatPriceForLabel(price: TokopediaProductFilter.minPriceRange)
         self.sliderMinLable.textAlignment = .left
-        self.sliderMinLable.textColor = .lightGray
+        self.sliderMinLable.textColor = .gray
         self.sliderMinLable.frame = CGRect(x: 10.0, y: self.sliderMinTitleLable.frame.maxY + 5.0, width: 100.0, height: 20.0)
         self.sliderContainer.addSubview(self.sliderMinLable)
         
         self.sliderMaxLable.font = sliderFont
-        self.sliderMaxLable.text = "Rp 10.000.000"
+        self.sliderMaxLable.text = self.formatPriceForLabel(price: TokopediaProductFilter.maxPriceRange)
         self.sliderMaxLable.textAlignment = .right
-        self.sliderMaxLable.textColor = .lightGray
+        self.sliderMaxLable.textColor = .gray
         self.sliderMaxLable.frame = CGRect(x: self.sliderContainer.frame.maxX - 160.0, y: self.sliderMinTitleLable.frame.maxY + 5.0, width: 150.0, height: 20.0)
         self.sliderContainer.addSubview(self.sliderMaxLable)
         
@@ -115,6 +118,17 @@ class FilterViewController: UIViewController {
         self.slider.lowerValue = 0.0
         self.slider.upperValue = 1.0
         self.view.addSubview(self.slider)
+        
+        self.wholeSaleSwitch.frame = CGRect(x: self.sliderContainer.frame.maxX - 10.0 - 50.0, y: self.sliderContainer.frame.size.height - 30.0 - 20.0, width: 30.0, height: 30.0)
+        self.wholeSaleSwitch.addTarget(self, action: #selector(switchValueDidChange(sender:)), for: .valueChanged)
+        self.sliderContainer.addSubview(self.wholeSaleSwitch)
+        
+        self.wholeSaleLabel.frame = CGRect(x: 10.0, y: self.sliderContainer.frame.size.height - 45.0, width: 100.0, height: 30.0)
+        self.wholeSaleLabel.text = "Whole Sale"
+        self.wholeSaleLabel.textAlignment = .left
+        self.wholeSaleLabel.font = UIFont.systemFont(ofSize: 15.0)
+        self.wholeSaleLabel.textColor = .gray
+        self.sliderContainer.addSubview(self.wholeSaleLabel)
     }
     
     override func viewDidLayoutSubviews() {
@@ -124,11 +138,19 @@ class FilterViewController: UIViewController {
                                     width: width, height: 31.0)
     }
     
+    @objc func switchValueDidChange(sender:UISwitch!)
+    {
+        self.filter.isWholesale = sender.isOn
+    }
+    
     func rangeSliderValueChanged(_ rangeSlider: RangeSlider) {
-        var minPrice = Double(TokopediaProductFilter.minPriceRange) + rangeSlider.lowerValue * Double(TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange)
+        var minPrice = TokopediaProductFilter.minPriceRange + rangeSlider.lowerValue * TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange
         minPrice = (round(minPrice/100))*100
-        var maxPrice = Double(TokopediaProductFilter.minPriceRange) + rangeSlider.upperValue * Double(TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange)
+        var maxPrice = TokopediaProductFilter.minPriceRange + rangeSlider.upperValue * TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange
         maxPrice = (round(maxPrice/100))*100
+        
+        self.filter.minPrice = minPrice
+        self.filter.maxPrice = maxPrice
         
         self.sliderMinLable.text = self.formatPriceForLabel(price: minPrice)
         self.sliderMaxLable.text = self.formatPriceForLabel(price: maxPrice)
