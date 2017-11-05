@@ -10,7 +10,7 @@ import UIKit
 
 // This is the search view controller, and the root controller of the mainVC
 
-class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
+class SearchViewController: UIViewController, TokopediaProductManagerDelegate, FilterViewControllerDelegate {
     
     private let navBarTitle     : String = "Search"       // bar title (Search)
     private let backgroundColor : UIColor = UIColor.white // background color (white)
@@ -81,6 +81,8 @@ class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
         self.activityView.hidesWhenStopped = true
         self.activityView.center = self.view.center
         
+        self.filterVC.delegate = self
+        
         TokopediaProductManager.shared.delegate = self // assign self as delegate
         self.loadMoreData() // load the first batch of data
     }
@@ -127,6 +129,14 @@ class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
         }
         self.hideLoadingUI()
         self.isLoadingData = false
+    }
+    
+    // MARK: FilterViewControllerDelegate
+    public func didApplyFilter(filter: TokopediaProductFilter) {
+        let productManager = TokopediaProductManager.shared
+        productManager.resetProducts()
+        productManager.filter = filter
+        self.loadMoreData()
     }
 }
 

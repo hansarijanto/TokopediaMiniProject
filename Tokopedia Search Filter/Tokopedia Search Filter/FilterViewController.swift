@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol FilterViewControllerDelegate: class {
+    func didApplyFilter(filter: TokopediaProductFilter)
+}
+
 class FilterViewController: UIViewController {
     
     private let backgroundColor : UIColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 239.0/255.0, alpha: 1.0) // background color (light gray)
@@ -31,6 +35,11 @@ class FilterViewController: UIViewController {
     
     private let wholeSaleSwitch : UISwitch = UISwitch()
     private let wholeSaleLabel  : UILabel  = UILabel()
+    
+    private let applyButton : UIButton = UIButton()
+    private let applyButtonHeight: CGFloat = 53.0
+    
+    public weak var delegate: FilterViewControllerDelegate? = nil
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -76,6 +85,7 @@ class FilterViewController: UIViewController {
         self.resetButton.setTitle("Reset", for: .normal)
         self.resetButton.setTitleColor(UIColor(red: 105.0/255.0, green: 188.0/255.0, blue: 110.0/255.0, alpha: 1.0), for: .normal)
         self.resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 13.0, weight: 1.2)
+        self.resetButton.addTarget(self, action: #selector(self.resetFilter), for: .touchUpInside)
         self.headerContainer.addSubview(self.resetButton)
         
         self.sliderContainer.frame = CGRect(x: 0.0, y: self.headerContainer.frame.maxY + 10.0, width: self.view.frame.size.width, height: 220.0)
@@ -129,6 +139,15 @@ class FilterViewController: UIViewController {
         self.wholeSaleLabel.font = UIFont.systemFont(ofSize: 15.0)
         self.wholeSaleLabel.textColor = .gray
         self.sliderContainer.addSubview(self.wholeSaleLabel)
+        
+        self.applyButton.frame = CGRect(x: 0.0, y: self.view.frame.maxY - self.applyButtonHeight, width: self.view.frame.size.width, height: self.applyButtonHeight)
+        self.applyButton.backgroundColor = UIColor(red: 58.0/255.0, green: 171.0/255.0, blue: 68.0/255.0, alpha: 1.0)
+        self.applyButton.setTitle("Apply", for: .normal)
+        self.applyButton.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        self.applyButton.titleLabel?.textColor = .white
+        self.view.addSubview(self.applyButton)
+        
+        self.applyButton.addTarget(self, action: #selector(self.applyFilter), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -138,15 +157,35 @@ class FilterViewController: UIViewController {
                                     width: width, height: 31.0)
     }
     
+    @objc func resetFilter() {
+        self.filter.reset()
+        DispatchQueue.main.async {
+            self.wholeSaleSwitch.setOn(false, animated: true)
+            self.slider.lowerValue = 0.0
+            self.slider.upperValue = 1.0
+            self.sliderMinLable.text = self.formatPriceForLabel(price: TokopediaProductFilter.minPriceRange)
+            self.sliderMaxLable.text = self.formatPriceForLabel(price: TokopediaProductFilter.maxPriceRange)
+        }
+    }
+    
+    @objc func applyFilter() {
+        self.delegate?.didApplyFilter(filter: self.filter)
+        self.close()
+    }
+    
     @objc func switchValueDidChange(sender:UISwitch!)
     {
-        self.filter.isWholesale = sender.isOn
+        if sender.isOn {
+            self.filter.isWholesale = true
+        } else {
+            self.filter.isWholesale = nil
+        }
     }
     
     func rangeSliderValueChanged(_ rangeSlider: RangeSlider) {
-        var minPrice = TokopediaProductFilter.minPriceRange + rangeSlider.lowerValue * TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange
+        var minPrice = TokopediaProductFilter.minPriceRange + rangeSlider.lowerValue * (TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange)
         minPrice = (round(minPrice/100))*100
-        var maxPrice = TokopediaProductFilter.minPriceRange + rangeSlider.upperValue * TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange
+        var maxPrice = TokopediaProductFilter.minPriceRange + rangeSlider.upperValue * (TokopediaProductFilter.maxPriceRange - TokopediaProductFilter.minPriceRange)
         maxPrice = (round(maxPrice/100))*100
         
         self.filter.minPrice = minPrice

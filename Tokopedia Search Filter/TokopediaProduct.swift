@@ -17,6 +17,14 @@ class TokopediaProductFilter {
     
     static let maxPriceRange : Double = 10000000.0
     static let minPriceRange : Double = 100.0
+    
+    func reset() {
+        self.minPrice = nil
+        self.maxPrice = nil
+        self.isWholesale = nil
+        self.isOfficial = nil
+        self.goldSeller = nil
+    }
 }
 
 class TokopediaProduct {
