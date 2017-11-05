@@ -21,6 +21,7 @@
 		B8E33F901FABA38C00C6616B /* TokopediaProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F8F1FABA38C00C6616B /* TokopediaProduct.swift */; };
 		B8E33F921FABA3A100C6616B /* HTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F911FABA3A100C6616B /* HTTPManager.swift */; };
 		B8E33F941FAF3B5D00C6616B /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F931FAF3B5D00C6616B /* FilterViewController.swift */; };
+		B8E33F961FAF601400C6616B /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E33F951FAF601400C6616B /* RangeSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		B8E33F8F1FABA38C00C6616B /* TokopediaProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokopediaProduct.swift; sourceTree = "<group>"; };
 		B8E33F911FABA3A100C6616B /* HTTPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPManager.swift; sourceTree = "<group>"; };
 		B8E33F931FAF3B5D00C6616B /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		B8E33F951FAF601400C6616B /* RangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				B8E33F881FAB984E00C6616B /* SearchCollectionViewLayout.swift */,
 				B8E33F8A1FAB996900C6616B /* SearchCollectionViewCell.swift */,
 				B8E33F931FAF3B5D00C6616B /* FilterViewController.swift */,
+				B8E33F951FAF601400C6616B /* RangeSlider.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				B8E33F941FAF3B5D00C6616B /* FilterViewController.swift in Sources */,
 				B8E33F5B1FAB92F200C6616B /* ViewController.swift in Sources */,
 				B8E33F901FABA38C00C6616B /* TokopediaProduct.swift in Sources */,
+				B8E33F961FAF601400C6616B /* RangeSlider.swift in Sources */,
 				B8E33F591FAB92F200C6616B /* AppDelegate.swift in Sources */,
 				B8E33F8B1FAB996900C6616B /* SearchCollectionViewCell.swift in Sources */,
 				B8E33F921FABA3A100C6616B /* HTTPManager.swift in Sources */,

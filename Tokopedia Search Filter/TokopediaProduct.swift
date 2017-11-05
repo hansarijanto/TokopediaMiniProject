@@ -14,6 +14,9 @@ class TokopediaProductFilter {
     public var isWholesale : Bool? = nil
     public var isOfficial  : Bool? = nil
     public var goldSeller  : Int?  = nil
+    
+    static let maxPriceRange : Int = 10000000
+    static let minPriceRange : Int = 100
 }
 
 class TokopediaProduct {
