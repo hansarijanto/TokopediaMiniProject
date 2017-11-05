@@ -23,8 +23,6 @@ class ViewController: UINavigationController {
         
         // set initial root vc
         self.pushViewController(self.searchVC, animated: true)
-        TokopediaProductManager.shared.getNextBatch()
-        
     }
 
     override func didReceiveMemoryWarning() {

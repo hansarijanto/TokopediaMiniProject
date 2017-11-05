@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol TokopediaProductManagerDelegate: class {
+    func didDownloadProducts(products: [TokopediaProduct])
+}
+
 // Singleton, keeps track of all tokopedia products and it's filter
 // and is responsible for its downloads
 
@@ -22,6 +26,8 @@ class TokopediaProductManager {
     
     private static let batchSize  : Int    = 10  // how many products we download per get request
     private static let rootUrl    : String = "https://ace.tokopedia.com/search/v2.5/product?q=samsung" // search key, hardcoded
+    
+    public weak var delegate: TokopediaProductManagerDelegate? = nil
     
     
     private func requestUrl() -> String {
@@ -59,7 +65,7 @@ class TokopediaProductManager {
             url = url + "&fshop=" + String(goldSeller)
         }
         
-        url = url + "&rows=" + String(self.currentProductIndex)
+        url = url + "&start=" + String(self.currentProductIndex)
         url = url + "&rows=" + String(TokopediaProductManager.batchSize)
         
         return url
@@ -102,6 +108,7 @@ class TokopediaProductManager {
                 
                 strongSelf.currentProductIndex += TokopediaProductManager.batchSize // increment batch size
                 strongSelf.isGettingBatch = false
+                self.delegate?.didDownloadProducts(products: self.products)
             }
         })
     }

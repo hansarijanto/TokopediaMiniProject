@@ -10,7 +10,7 @@ import UIKit
 
 // This is the search view controller, and the root controller of the mainVC
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, TokopediaProductManagerDelegate {
     
     private let navBarTitle     : String = "Search"       // bar title (Search)
     private let backgroundColor : UIColor = UIColor.white // background color (white)
@@ -18,6 +18,13 @@ class SearchViewController: UIViewController {
     // collection view
     private let collectionView  : UICollectionView
     private let CVLayout        : SearchCollectionViewLayout = SearchCollectionViewLayout()
+    
+    private(set) var isLoadingData   : Bool = false // true when collection view is loading in more products
+    private let activityView : UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    private let fadeView     : UIView = UIView()
+    
+    public let YScrollLoadPadding: CGFloat = 70.0 // padding in pixels for the amount needed to load more data once the collection view has reached it's maxed scroll
+
     
     var fullImageView: UIImageView!
     
@@ -51,6 +58,20 @@ class SearchViewController: UIViewController {
         self.collectionView.contentInset = UIEdgeInsetsMake(5.0, 0.0, 5.0, 0.0)
         self.collectionView.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
         self.view.addSubview(self.collectionView)
+        
+        // setup loading view
+        self.fadeView.frame = self.view.frame
+        self.fadeView.backgroundColor = UIColor.black
+        self.fadeView.alpha = 0.3
+        self.fadeView.isHidden = true
+        self.view.addSubview(fadeView)
+        
+        self.view.addSubview(activityView)
+        activityView.hidesWhenStopped = true
+        activityView.center = self.view.center
+        
+        TokopediaProductManager.shared.delegate = self // assign self as delegate
+        self.loadMoreData() // load the first batch of data
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,7 +79,38 @@ class SearchViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    private func showLoadingUI() {
+        DispatchQueue.main.async {
+            self.fadeView.isHidden = false
+            self.activityView.startAnimating()
+        }
+    }
     
+    private func hideLoadingUI() {
+        DispatchQueue.main.async {
+            self.fadeView.isHidden = true
+            self.activityView.stopAnimating()
+        }
+    }
+    
+    // function called when we want to download and load more products
+    // called when we reach the end of the collection view
+    public func loadMoreData() {
+        if !self.isLoadingData {
+            self.isLoadingData = true
+            self.showLoadingUI()
+            TokopediaProductManager.shared.getNextBatch() // set up call back
+        }
+    }
+    
+    // MARK: TokopediaProductManagerDelegate
+    func didDownloadProducts(products: [TokopediaProduct]) {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+        self.hideLoadingUI()
+        self.isLoadingData = false
+    }
 }
 
 
@@ -101,11 +153,16 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! SearchCollectionViewCell
-        let products = TokopediaProductManager.shared.products
-        let product = products[indexPath.row]
-        
         return
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY - self.YScrollLoadPadding > contentHeight - scrollView.frame.size.height {
+            self.loadMoreData()
+        }
     }
     
 }
